@@ -1,7 +1,7 @@
 class Obstaculo {
     constructor(x,alturaJuego, bird) {
         this.contabilizado = false;
-        this.velocidadDesplazo = 0.8;
+        this.velocidadDesplazo = 0.9;
         this.alturaJuego = alturaJuego;
         this.espacioLibre = random(150,200);
         this.r = random(0,255);

@@ -11,10 +11,19 @@ class Tuberia {
     }
 
     verificarColisionBird() {
-        if(!((this.bird.posx + this.bird.size/2) >= this.posx && this.bird.posx <= (this.posx+this.grueso))) {
+        /* if(!((this.bird.posx + this.bird.size/2) >= this.posx && this.bird.posx <= (this.posx+this.grueso))) {
             return false;
         }
         if(!(this.bird.posy >= (this.posy+this.tamanio) && this.bird.posy <= this.posy)) {
+            return false;
+        } */
+        //X
+        if((this.bird.posx+this.bird.size/2) < this.posx || (this.bird.posx-this.bird.size/2) > (this.posx + this.grueso)) {
+            return false;
+        }
+
+        //Y
+        if((this.bird.posy+this.bird.size/2) < this.posy || (this.bird.posy-this.bird.size/2) > (this.posy + this.tamanio)) {
             return false;
         }
         return true;
