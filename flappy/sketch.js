@@ -10,7 +10,7 @@ let obstaculos = [];
 let obstaculoIncr = 0;
 function setup() {
   createCanvas(anchuraJuego, alturaJuego);
-  bird = new Bird(50,random(100,alturaJuego-100),radioBird);
+  Reiniciar();
   
 }
 
@@ -69,7 +69,7 @@ function mostrarFin(){
 }
 
 function mostrarObstaculosPasados(){
-  fill(0);
+  fill(255);
   textFont('Helvetica',15);
   text("Tuberías: " + obstaculosPasados,anchuraJuego-130,alturaJuego-20);
   text("Frame: " + frameCount,anchuraJuego-130,alturaJuego-40);
@@ -82,7 +82,7 @@ function generarObstaculosNuevos() {
   if(frameCount % frecuenciaObstaculos == 0  && pausado == false ) {
   // if(frameCount == 100) {
     print('creando tuberia 1');
-    let nuevoObstaculo = new Obstaculo(anchuraJuego+50, alturaJuego, bird);
+    let nuevoObstaculo = new Obstaculo(anchuraJuego+5, alturaJuego, bird);
     obstaculos[obstaculoIncr++] = nuevoObstaculo;
   }
 }
@@ -92,4 +92,16 @@ function keyPressed() {
     pausado = false;
     bird.saltar();
   }
+  if (keyCode === DOWN_ARROW) {
+    Reiniciar();
+  }
+}
+
+function Reiniciar() {
+  bird = new Bird(50,random(100,alturaJuego-100),radioBird);
+  pausado = true;
+  obstaculosPasados = 0;
+  obstaculos = [];
+  fin = false;
+  obstaculoIncr = 0;
 }
