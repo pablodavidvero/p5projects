@@ -7,7 +7,7 @@ let obstaculosPasados = 0;
 let frecuenciaObstaculos = 60*4;
 let pausado = true;
 let obstaculos = [];
-let obstaculoIncr = 0;
+
 function setup() {
   createCanvas(anchuraJuego, alturaJuego);
   Reiniciar();
@@ -71,8 +71,8 @@ function mostrarFin(){
 function mostrarObstaculosPasados(){
   fill(255);
   textFont('Helvetica',15);
-  text("Tuberías: " + obstaculosPasados,anchuraJuego-130,alturaJuego-20);
-  text("Frame: " + frameCount,anchuraJuego-130,alturaJuego-40);
+  text("Puntos: " + obstaculosPasados,anchuraJuego-130,alturaJuego-20);
+  // text("Frame: " + frameCount,anchuraJuego-130,alturaJuego-40);
 }
 
 function generarObstaculosNuevos() {
@@ -83,7 +83,7 @@ function generarObstaculosNuevos() {
   // if(frameCount == 100) {
     print('creando tuberia 1');
     let nuevoObstaculo = new Obstaculo(anchuraJuego+5, alturaJuego, bird);
-    obstaculos[obstaculoIncr++] = nuevoObstaculo;
+    obstaculos[obstaculos.length] = nuevoObstaculo;
   }
 }
 
@@ -103,5 +103,5 @@ function Reiniciar() {
   obstaculosPasados = 0;
   obstaculos = [];
   fin = false;
-  obstaculoIncr = 0;
+
 }
