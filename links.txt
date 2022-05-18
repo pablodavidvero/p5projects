@@ -1,0 +1,8 @@
+--Juego flappybird en linea original
+https://flappybird.io
+
+--Referencias de p5.js
+https://p5js.org/es/reference/#/p5/rect
+
+--editor en linea de p5
+https://editor.p5js.org
