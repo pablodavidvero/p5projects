@@ -10,7 +10,15 @@ class Tuberia {
         this.bird = bird;
     }
 
-    
+    verificarColisionBird() {
+        if(!((this.bird.posx + this.bird.size/2) >= this.posx && this.bird.posx <= (this.posx+this.grueso))) {
+            return false;
+        }
+        if(!(this.bird.posy >= (this.posy+this.tamanio) && this.bird.posy <= this.posy)) {
+            return false;
+        }
+        return true;
+    }
 
     show(posx) {
         this.posx = posx;

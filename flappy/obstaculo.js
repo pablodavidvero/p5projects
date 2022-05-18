@@ -14,18 +14,23 @@ class Obstaculo {
         this.tuberia_baja = new Tuberia(x,this.posyinicial+this.espacioLibre,alturaJuego - this.posyinicial-this.espacioLibre,this.r,this.g,this.b, bird);
     }
 
-    show() {
+    show(desplazarse) {
         this.tuberia_alta.show(this.posx);
         this.tuberia_baja.show(this.posx);
-        this.desplazarse();
+        if(desplazarse)
+            this.desplazarse();
     }
 
     desplazarse() {
         this.posx -= this.velocidadDesplazo;
-        this.verificarBird();
     }
 
-    verificarBird(){
-
+    verificarColisionBird(){
+        if(this.tuberia_alta == null || this.tuberia_baja == null){
+            return false;
+        }
+        let alta = this.tuberia_alta.verificarColisionBird();
+        let baja = this.tuberia_baja.verificarColisionBird();
+        return (alta || baja);
     }
 }

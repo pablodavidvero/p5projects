@@ -21,7 +21,7 @@ function draw() {
   verificarLimites();
   generarObstaculosNuevos();
   renderObstaculos();
-  if(fin) {
+  if(fin == true) {
     mostrarFin();
   }
   
@@ -30,23 +30,34 @@ function draw() {
 
 function renderObstaculos() {
   for(let i = 0;i < obstaculos.length; i++){
-    obstaculos[i].show();
+    obstaculos[i].show(fin == false);
+    //VERIFICAR CONTEO DE OBSTACULOS
     if((obstaculos[i].posx < bird.posx) && obstaculos[i].contabilizado == false) {
       obstaculosPasados = obstaculosPasados+1;
       obstaculos[i].contabilizado = true;
     }
-      
+    //VERIFICAR COLISIÓN CON EL BIRD
+    if(obstaculos[i].verificarColisionBird() == true){
+      finalizar();
+    }
   }
 }
 
+function finalizar() {
+  fin = true;
+}
+
 function verificarLimites(){
+  if(fin == true){
+    return;
+  }
   //arriba
   if(bird.posy-(radioBird/2) <= 0) {
-    fin = true;
+    finalizar();
   }
   //abajo
   if(bird.posy+(radioBird/2) >= alturaJuego){
-    fin = true;
+    finalizar();
   }
 }
 
@@ -65,7 +76,10 @@ function mostrarObstaculosPasados(){
 }
 
 function generarObstaculosNuevos() {
-  if(frameCount % frecuenciaObstaculos == 0/*  && pausado == false */) {
+  if(fin == true){
+    return;
+  }
+  if(frameCount % frecuenciaObstaculos == 0  && pausado == false ) {
   // if(frameCount == 100) {
     print('creando tuberia 1');
     let nuevoObstaculo = new Obstaculo(anchuraJuego+50, alturaJuego, bird);
@@ -75,7 +89,7 @@ function generarObstaculosNuevos() {
 
 function keyPressed() {
   if (keyCode === UP_ARROW) {
-    this.pausado = false;
+    pausado = false;
     bird.saltar();
   }
 }
