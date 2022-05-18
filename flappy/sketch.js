@@ -1,10 +1,10 @@
 let bird;
 let fin = false;
 let radioBird = 25;
-let anchuraJuego = 800;
+let anchuraJuego = 400;
 let alturaJuego = 600;
 let obstaculosPasados = 0;
-let frecuenciaObstaculos = 60*2;
+let frecuenciaObstaculos = 60*4;
 let pausado = true;
 let obstaculos = [];
 let obstaculoIncr = 0;
@@ -19,17 +19,23 @@ function draw() {
   
   bird.show();
   verificarLimites();
-  mostrarObstaculosPasados();
   generarObstaculosNuevos();
   renderObstaculos();
   if(fin) {
     mostrarFin();
   }
+  
+  mostrarObstaculosPasados();
 }
 
 function renderObstaculos() {
-  for(let i = 0;i < this.obstaculoIncr; i++){
-    this.obstaculos[i].show();
+  for(let i = 0;i < obstaculos.length; i++){
+    obstaculos[i].show();
+    if((obstaculos[i].posx < bird.posx) && obstaculos[i].contabilizado == false) {
+      obstaculosPasados = obstaculosPasados+1;
+      obstaculos[i].contabilizado = true;
+    }
+      
   }
 }
 
@@ -47,7 +53,7 @@ function verificarLimites(){
 function mostrarFin(){
   fill(0);
   textFont('Helvetica',70);
-  text("FIN",200,200);
+  text("FIN",anchuraJuego/2-50,alturaJuego/2);
   bird.detenido = true;
 }
 
@@ -59,9 +65,11 @@ function mostrarObstaculosPasados(){
 }
 
 function generarObstaculosNuevos() {
-  if(frameCount % frecuenciaObstaculos == 0 && pausado == false) {
-    let nuevoObstaculo = new Obstaculo(/* anchuraJuego+ */300,this.alturaJuego, this.bird);
-    this.obstaculos[obstaculoIncr++] = nuevoObstaculo;
+  if(frameCount % frecuenciaObstaculos == 0/*  && pausado == false */) {
+  // if(frameCount == 100) {
+    print('creando tuberia 1');
+    let nuevoObstaculo = new Obstaculo(anchuraJuego+50, alturaJuego, bird);
+    obstaculos[obstaculoIncr++] = nuevoObstaculo;
   }
 }
 

@@ -1,7 +1,6 @@
 class Tuberia {
     constructor(posx, posy, tamanio, r, g, b, bird) {
-        this.velocidadDesplazo = 0.5;
-        this.grueso = 10;
+        this.grueso = 20;
         this.posx = posx;
         this.posy = posy; 
         this.tamanio = tamanio;
@@ -11,19 +10,12 @@ class Tuberia {
         this.bird = bird;
     }
 
-    desplazarse() {
-        this.posx -= this.velocidadDesplazo;
-        verificarBird();
-    }
+    
 
-    verificarBird(){
-
-    }
-
-    show() {
+    show(posx) {
+        this.posx = posx;
         noStroke();
         fill(this.r,this.g,this.b);
         rect(this.posx, this.posy, this.grueso, this.tamanio);
-        desplazarse();
     }
 }

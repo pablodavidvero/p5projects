@@ -2,9 +2,9 @@ class Bird {
     constructor(x, y, size) {
         this.congelado = true;
         this.detenido = false;
-        this.salto_altura = 15;
+        this.salto_altura = 10;
         this.velocidad_caida = 0;
-        this.aceleracion = 1;
+        this.aceleracion = 0.6;
         this.posx = x;
         this.posy = y;
         this.size = size;
