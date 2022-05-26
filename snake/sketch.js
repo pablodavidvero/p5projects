@@ -22,6 +22,7 @@ function draw() {
   background(0);
   snake.show();
   verificarLimites();
+  generarComida();
   verificarComida();
   if(fin == true) {
     mostrarFin();
@@ -29,14 +30,34 @@ function draw() {
 }
 
 function verificarComida() {
+  if(comida == null) {
+    return;
+  }
+
+  if(snake.posx+tamanio < comida.posx || snake.posx > comida.posx+tamanio) {
+    return;
+  }
+
+  if(snake.posy+tamanio < comida.posy || snake.posy > comida.posy+tamanio) {
+    return;
+  }
+  
+  snake.comer();
+  comida = null;
+}
+
+function generarComida() {
   if(frameCount % frecuenciaSubidaNivel == 0  && pausado == false ) {
-    comida = {posx: random(cant_x)*tamanio, posy: random(cant_y)*tamanio};
+    let posx = int(random(cant_x))*tamanio;
+    let posy = int(random(cant_y))*tamanio;
+    comida = {posx: posx, posy: posy};
   }
 
   //mostrando comida
   if(comida != null) {
     fill(255,0,0);
 		rect(comida.posx, comida.posy, tamanio, tamanio);
+
   }
 }
 
@@ -103,7 +124,11 @@ function keyPressed() {
 }
 
 function Reiniciar() {
-  snake = new Snake(tamanio, random(cant_x)*tamanio, random(cant_y)*tamanio);
+  let posx = int(random(cant_x))*tamanio;
+  let posy = int(random(cant_y))*tamanio;
+  // print("cantx: " + cant_x + ", canty: " + cant_y);
+  // print("posx: " + posx + ", posy: " + posy);
+  snake = new Snake(tamanio, posx, posy);
   pausado = true;
   fin = false;
   comidos = 0;
