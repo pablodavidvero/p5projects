@@ -16,6 +16,11 @@ class Snake {
 	mover(dirx, diry) {
 		if(dirx == 0 && diry == 0)
 			return;
+		if(dirx < 0 & this.velx > 0 || dirx > 0 & this.velx < 0)
+			return;
+		if(diry < 0 & this.vely > 0 || diry > 0 & this.vely < 0)
+			return;
+		
 		this.velx = dirx;
 		this.vely = diry;
 	}
