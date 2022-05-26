@@ -1,5 +1,6 @@
 class Snake {
-	constructor(tamanio, posx, posy) {
+	constructor(sketch, tamanio, posx, posy) {
+		this.sketch = sketch;
 		this.posx = posx;
 		this.posy = posy;
 		this.velx = 0;
@@ -11,6 +12,7 @@ class Snake {
 		this.b = 255;
 		this.detenido = false;
 		this.cola = [];
+		this.comido = false;
 	}
 	
 	mover(dirx, diry) {
@@ -25,7 +27,7 @@ class Snake {
 		this.vely = diry;
 	}
 
-	show() {
+	show(comida) {
 		fill(this.r,this.g,this.b);
 		rect(this.posx, this.posy, this.tamanio,this.tamanio);
 
@@ -33,19 +35,46 @@ class Snake {
 			let pedazo = this.cola[index];
 			fill(this.r,this.g,this.b);
 			rect(pedazo.posx, pedazo.posy, this.tamanio,this.tamanio);
-
-			if(index != 0) {
-				pedazo.posx = this.cola[index-1].posx;
-				pedazo.posy = this.cola[index-1].posy;
-			} else {
-				pedazo.posx = snake.posx;
-				pedazo.posy = snake.posy;
-			}
 		}
-
-		this.posx+=this.velx*this.velocidad;
-		this.posy+=this.vely*this.velocidad;
+		this.moverCola(this.cola.length-1, this.posx, this.posy)
+		this.moverCabeza(comida);
 	}
+
+	moverCabeza(comida) {
+		//próximo paso
+		let proximoPasoX = this.posx+this.velx*this.velocidad;
+		let proximoPasoY = this.posy+this.vely*this.velocidad;
+		this.verificarComida(comida, proximoPasoX, proximoPasoY);
+		this.posx = proximoPasoX;
+		this.posy = proximoPasoY;
+	}
+
+	moverCola(pos, sigx, sigy) {
+		if(pos < 0)
+			return;
+		let pedazo = this.cola[pos];
+		//MOVIENDO
+		this.moverCola(pos -1, pedazo.posx, pedazo.posy);
+		pedazo.posx = sigx;
+		pedazo.posy = sigy;
+	}
+
+	verificarComida(comida, proxX, proxY) {
+		if(comida == null) {
+		  return;
+		}
+	  
+		if(proxX+tamanio <= comida.posx || proxX >= comida.posx+tamanio) {
+		  return;
+		}
+	  
+		if(proxY+tamanio <= comida.posy || proxY >= comida.posy+tamanio) {
+		  return;
+		}
+		
+		this.cola[this.cola.length] = {posx: this.posx, posy: this.posy};
+		this.comido = true;
+	  }
 
 	detener() {
 		this.detenido = true;		
@@ -53,27 +82,7 @@ class Snake {
 		this.vely = 0;
 	}
 
-	comer() {
-		let posx = this.posx;
-		let posy = this.posy;
-
-		if(this.cola.length>0) {
-			posx = this.cola[this.cola.length-1].posx;
-			posy = this.cola[this.cola.length-1].posy;
-		}
-
-		if(this.velx > 0) {
-			posx-=this.tamanio;
-		}
-		if(this.velx < 0) {
-			posx+=this.tamanio;
-		}
-		if(this.vely > 0) {
-			posy-=this.tamanio;
-		}
-		if(this.vely < 0) {
-			posy+=this.tamanio;
-		}
-		this.cola[this.cola.length] = {posx, posy}
+	comer(comida) {
+		
 	}
 }

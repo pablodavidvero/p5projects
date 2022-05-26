@@ -4,13 +4,15 @@ let anchuraJuego = 400;
 let alturaJuego = 600;
 let pausado = true;
 let comidos = 0;
-let frecuenciaSubidaNivel = 60*5;
+let frecuenciaSubidaNivel = 60*2;
 let finalizarChocandoConBordes = false;
 let comida ;
 let tamanio = 10;
 let frames = 12;
 let cant_x = anchuraJuego / tamanio;
 let cant_y = alturaJuego / tamanio;
+
+let framesSincomer = 0;
 
 function setup() {
   frameRate(frames);
@@ -20,45 +22,37 @@ function setup() {
 
 function draw() {
   background(0);
-  snake.show();
+  snake.show(comida);
   verificarLimites();
-  generarComida();
-  verificarComida();
   if(fin == true) {
     mostrarFin();
   }
-}
-
-function verificarComida() {
-  if(comida == null) {
-    return;
-  }
-
-  if(snake.posx+tamanio < comida.posx || snake.posx > comida.posx+tamanio) {
-    return;
-  }
-
-  if(snake.posy+tamanio < comida.posy || snake.posy > comida.posy+tamanio) {
-    return;
-  }
-  
-  snake.comer();
-  comida = null;
+  renderizarComida ();
 }
 
 function generarComida() {
-  if(frameCount % frecuenciaSubidaNivel == 0  && pausado == false ) {
-    let posx = int(random(cant_x))*tamanio;
-    let posy = int(random(cant_y))*tamanio;
-    comida = {posx: posx, posy: posy};
+  let posx = int(random(cant_x))*tamanio;
+  let posy = int(random(cant_y))*tamanio;
+  comida = {posx: posx, posy: posy};
+}
+
+function renderizarComida () {
+  if(snake.comido == true) {
+    framesSincomer = 0;
+    generarComida();
+    snake.comido = false;
   }
 
-  //mostrando comida
   if(comida != null) {
     fill(255,0,0);
 		rect(comida.posx, comida.posy, tamanio, tamanio);
-
   }
+
+  if(framesSincomer > frecuenciaSubidaNivel && frameCount % frecuenciaSubidaNivel == 0  && pausado == false ) {
+    generarComida();
+  }
+
+  framesSincomer++;
 }
 
 function verificarLimites(){
@@ -128,10 +122,11 @@ function Reiniciar() {
   let posy = int(random(cant_y))*tamanio;
   // print("cantx: " + cant_x + ", canty: " + cant_y);
   // print("posx: " + posx + ", posy: " + posy);
-  snake = new Snake(tamanio, posx, posy);
+  snake = new Snake(this, tamanio, posx, posy);
   pausado = true;
   fin = false;
   comidos = 0;
+  generarComida();
 }
 
 function mostrarFin(){
