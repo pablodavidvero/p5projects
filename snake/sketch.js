@@ -5,6 +5,7 @@ let alturaJuego = 600;
 let pausado = true;
 let comidos = 0;
 let frecuenciaSubidaNivel = 60*5;
+let finalizarChocandoConBordes = false;
 
 function setup() {
   createCanvas(anchuraJuego, alturaJuego);
@@ -32,14 +33,25 @@ function verificarLimites(){
   if(fin == true){
     return;
   }
-  /* //arriba
-  if(snake.posy <= 0) {
-    finalizar();
+  if(finalizarChocandoConBordes == true) {
+    //ARRIBA
+    if(snake.posy <= 0) {
+      finalizar();
+    }
+    //ABAJO
+    if(snake.posy+(snake.tamanio) >= alturaJuego){
+      finalizar();
+    }
+    //IZQUIERDA
+    if(snake.posx <= 0) {
+      finalizar();
+    }
+    //DERECHA
+    if(snake.posx+(snake.tamanio) >= anchuraJuego){
+      finalizar();
+    }
   }
-  //abajo
-  if(snake.posy+(snake.tamanio) >= alturaJuego){
-    finalizar();
-  } */
+
   // ABAJO
   if(snake.posy >= alturaJuego && snake.vely>0){
     snake.posy = 0;
