@@ -6,8 +6,14 @@ let pausado = true;
 let comidos = 0;
 let frecuenciaSubidaNivel = 60*5;
 let finalizarChocandoConBordes = false;
+let comida ;
+let tamanio = 10;
+let frames = 12;
+let cant_x = anchuraJuego / tamanio;
+let cant_y = alturaJuego / tamanio;
 
 function setup() {
+  frameRate(frames);
   createCanvas(anchuraJuego, alturaJuego);
   Reiniciar();
 }
@@ -16,17 +22,22 @@ function draw() {
   background(0);
   snake.show();
   verificarLimites();
-  subirNivel();
-
+  verificarComida();
   if(fin == true) {
     mostrarFin();
   }
 }
 
-function subirNivel() {
+function verificarComida() {
   if(frameCount % frecuenciaSubidaNivel == 0  && pausado == false ) {
-    snake.aumentarVelocidad();
-  } 
+    comida = {posx: random(cant_x)*tamanio, posy: random(cant_y)*tamanio};
+  }
+
+  //mostrando comida
+  if(comida != null) {
+    fill(255,0,0);
+		rect(comida.posx, comida.posy, tamanio, tamanio);
+  }
 }
 
 function verificarLimites(){
@@ -78,21 +89,21 @@ function finalizar() {
 function keyPressed() {
   pausado = false;
   if (keyCode === UP_ARROW) {
-    snake.mover(0,-1);
+    snake.mover(0,-tamanio);
   }
   if (keyCode === DOWN_ARROW) {
-    snake.mover(0,1);
+    snake.mover(0,tamanio);
   }
   if (keyCode === LEFT_ARROW) {
-    snake.mover(-1,0);
+    snake.mover(-tamanio,0);
   }
   if (keyCode === RIGHT_ARROW) {
-    snake.mover(1,0);
+    snake.mover(tamanio,0);
   }
 }
 
 function Reiniciar() {
-  snake = new Snake(random(10,anchuraJuego-10), (random(10,alturaJuego-10)));
+  snake = new Snake(tamanio, random(cant_x)*tamanio, random(cant_y)*tamanio);
   pausado = true;
   fin = false;
   comidos = 0;

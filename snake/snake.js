@@ -1,15 +1,16 @@
 class Snake {
-	constructor(posx, posy) {
+	constructor(tamanio, posx, posy) {
 		this.posx = posx;
 		this.posy = posy;
 		this.velx = 0;
 		this.vely = 0;
-		this.velocidad = 2;
-		this.tamanio = 8;
+		this.velocidad = 1;
+		this.tamanio = tamanio;
 		this.r = 255;
 		this.g = 255;
 		this.b = 255;
 		this.detenido = false;
+		this.cola = [];
 	}
 	
 	mover(dirx, diry) {
@@ -25,10 +26,6 @@ class Snake {
 
 		this.posx+=this.velx*this.velocidad;
 		this.posy+=this.vely*this.velocidad;
-	}
-
-	aumentarVelocidad() {
-		this.velocidad += 0.5;
 	}
 
 	detener() {
