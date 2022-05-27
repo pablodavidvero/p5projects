@@ -13,6 +13,8 @@ class Snake {
 		this.detenido = false;
 		this.cola = [];
 		this.comido = false;
+		this.topaColita = false;
+		this.fin = false;
 	}
 	
 	mover(dirx, diry) {
@@ -36,7 +38,10 @@ class Snake {
 			fill(this.r,this.g,this.b);
 			rect(pedazo.posx, pedazo.posy, this.tamanio,this.tamanio);
 		}
-		this.moverCola(this.cola.length-1, this.posx, this.posy)
+		if(this.topaColita == true || this.fin == true) {
+			return;
+		}
+ 		this.moverCola(this.cola.length-1, this.posx, this.posy)
 		this.moverCabeza(comida);
 	}
 
@@ -44,9 +49,24 @@ class Snake {
 		//próximo paso
 		let proximoPasoX = this.posx+this.velx*this.velocidad;
 		let proximoPasoY = this.posy+this.vely*this.velocidad;
+		this.verificarGolpearCola(proximoPasoX, proximoPasoY);
 		this.verificarComida(comida, proximoPasoX, proximoPasoY);
 		this.posx = proximoPasoX;
 		this.posy = proximoPasoY;
+	}
+
+	verificarGolpearCola(proxX, proxY) {
+		this.cola.forEach(colita => {
+			if(proxX+this.tamanio <= colita.posx || proxX >= colita.posx+this.tamanio) {
+				return;
+			}
+		
+			if(proxY+this.tamanio <= colita.posy || proxY >= colita.posy+this.tamanio) {
+				return;
+			}
+
+			this.topaColita = true;
+		});
 	}
 
 	moverCola(pos, sigx, sigy) {

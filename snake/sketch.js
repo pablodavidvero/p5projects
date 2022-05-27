@@ -1,13 +1,13 @@
 let snake;
 let fin = false;
-let anchuraJuego = 400;
+let anchuraJuego = 600;
 let alturaJuego = 600;
 let pausado = true;
 let comidos = 0;
 let frecuenciaSubidaNivel = 60*2;
-let finalizarChocandoConBordes = false;
+let finalizarChocandoConBordes = true;
 let comida ;
-let tamanio = 10;
+let tamanio = 20;
 let frames = 12;
 let cant_x = anchuraJuego / tamanio;
 let cant_y = alturaJuego / tamanio;
@@ -48,6 +48,9 @@ function renderizarComida () {
 		rect(comida.posx, comida.posy, tamanio, tamanio);
   }
 
+  if(fin == true)
+    return ;
+
   if(framesSincomer > frecuenciaSubidaNivel && frameCount % frecuenciaSubidaNivel == 0  && pausado == false ) {
     generarComida();
   }
@@ -61,22 +64,29 @@ function verificarLimites(){
   }
   if(finalizarChocandoConBordes == true) {
     //ARRIBA
-    if(snake.posy <= 0) {
+    if(snake.posy < 0) {
       finalizar();
     }
     //ABAJO
-    if(snake.posy+(snake.tamanio) >= alturaJuego){
+    if(snake.posy+(snake.tamanio) > alturaJuego){
       finalizar();
     }
     //IZQUIERDA
-    if(snake.posx <= 0) {
+    if(snake.posx < 0) {
       finalizar();
     }
     //DERECHA
-    if(snake.posx+(snake.tamanio) >= anchuraJuego){
+    if(snake.posx+(snake.tamanio) > anchuraJuego){
+      finalizar();
+    }
+
+    if(snake.topaColita == true) {
       finalizar();
     }
   }
+
+  if(fin == true)
+    return;
 
   // ABAJO
   if(snake.posy >= alturaJuego && snake.vely>0){
@@ -102,6 +112,9 @@ function finalizar() {
 }
 
 function keyPressed() {
+  if(fin == true) {
+    return;
+  }
   pausado = false;
   if (keyCode === UP_ARROW) {
     snake.mover(0,-tamanio);
@@ -133,5 +146,6 @@ function mostrarFin(){
   fill(255);
   textFont('Helvetica',70);
   text("FIN",anchuraJuego/2-50,alturaJuego/2);
+  snake.fin = true;
   snake.detener();
 }
