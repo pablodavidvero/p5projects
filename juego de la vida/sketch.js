@@ -21,7 +21,7 @@ function draw() {
 	background(0);
 	dibujarDashboardInfo();
 	dibujarMatrixVacia();
-
+	dibujarCelulas();
 }
 
 function dibujarMatrixVacia() {
@@ -40,12 +40,14 @@ function dibujarMatrixVacia() {
 function dibujarCelulas() {
 	fill(255);
 	noStroke();
-	celulasActuales.forEach(celula, pos => {
+	conteoCelulas = 0;
+	celulasActuales.forEach( (celula, pos) => {
 		if(celula != 1)
 			return;
-		/* let posx = pos % cant_x;
-		let posy = pos
-		rect() */
+		let posy = pos / cant_x ;
+		let posx = pos % cant_x; 
+		conteoCelulas++;
+		rect(posx * cant_x, posy * cant_y, tamanioCasilla, tamanioCasilla);
 	});
 }
 
@@ -70,6 +72,7 @@ function dibujarDashboardInfo() {
 	let desfaceIzq = 20;
 	let tamanioFila = 30;
 	let filaActual = 1;
+	noFill();
 	strokeWeight(4);
 	stroke(255);
 	line((anchuraTotal-anchuraDashboardInfo), 0, (anchuraTotal-anchuraDashboardInfo), alturaTotal);
