@@ -19,9 +19,9 @@ function setup() {
 
 function draw() {
 	background(0);
-	dibujarDashboardInfo();
 	dibujarMatrixVacia();
 	dibujarCelulas();
+	dibujarDashboardInfo();
 }
 
 function dibujarMatrixVacia() {
@@ -44,8 +44,9 @@ function dibujarCelulas() {
 	celulasActuales.forEach( (celula, pos) => {
 		if(celula != 1)
 			return;
-		let posy = pos / cant_x ;
+		let posy = int(pos / cant_x);
 		let posx = pos % cant_x; 
+		console.log(`poslineal: ${pos}, celula: ${celula}, posx: ${posx}, posy: ${posy}, modulo esperado: ${34 % 20}`);
 		conteoCelulas++;
 		rect(posx * cant_x, posy * cant_y, tamanioCasilla, tamanioCasilla);
 	});
