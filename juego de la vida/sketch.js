@@ -1,4 +1,4 @@
-let framesPerSecond = 10;
+let framesPerSecond = 1;
 let anchuraTotal = 800;
 let anchuraDashboardInfo = 200;
 let alturaTotal = 600;
@@ -39,7 +39,9 @@ function dibujarMatrixVacia() {
 
 function dibujarCelulas() {
 	fill(255);
-	noStroke();
+	stroke(255);
+	// noStroke();
+	strokeWeight(1);
 	conteoCelulas = 0;
 	celulasActuales.forEach( (celula, pos) => {
 		if(celula != 1)
