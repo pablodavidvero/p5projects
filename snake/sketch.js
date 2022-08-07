@@ -5,7 +5,7 @@ let alturaJuego = 600;
 let pausado = true;
 let comidos = 0;
 let frecuenciaSubidaNivel = 60*2;
-let finalizarChocandoConBordes = true;
+let finalizarChocandoConBordes = false;
 let comida ;
 let tamanio = 20;
 let frames = 12;

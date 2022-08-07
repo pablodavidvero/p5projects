@@ -1,9 +1,11 @@
 let framesPerSecond = 1;
-let anchuraTotal = 800;
+let anchuraTotal = 900;
 let anchuraDashboardInfo = 200;
-let alturaTotal = 600;
-let tamanioCasilla = 20;
+let alturaTotal = 700;
+let tamanioCasilla = 25;
 let conteoCelulas = 0;
+let maxCelulasAleatorias = 10;
+let pausado = true;
 
 let cant_x = (anchuraTotal - anchuraDashboardInfo) / tamanioCasilla;
 let cant_y = alturaTotal / tamanioCasilla;
@@ -13,8 +15,14 @@ let celulasActuales = [];//Estructura lineal
 function setup() {
 	frameRate(framesPerSecond);
 	createCanvas(anchuraTotal, alturaTotal);
-	inicializarCelulasVacias();
+	inicializarCelulasVacias(celulasActuales);
 	crearSemillaInicialAleatoria();
+}
+
+function keyPressed() {
+	if (keyCode === ENTER) {
+		pausado = false;
+	}
 }
 
 function draw() {
@@ -22,6 +30,23 @@ function draw() {
 	dibujarMatrixVacia();
 	dibujarCelulas();
 	dibujarDashboardInfo();
+}
+
+function generarNuevaGeneracion () {
+	if(pausado)
+		return;
+		
+	let nuevaGeneracion = [];
+	inicializarCelulasVacias(nuevaGeneracion);
+	celulasActuales.forEach((activa, pos) => {
+		let cant_vecinas_vivas = 0;
+		//primera regla
+		if(activa == 1 && (cant_vecinas_vivas = 2 || cant_vecinas_vivas == 3 ))
+			nuevaGeneracion[pos] = 1;
+		//segunda regla
+		if(activa == 0 && (cant_vecinas_vivas == 3 ))
+			nuevaGeneracion[pos] = 1;
+	});
 }
 
 function dibujarMatrixVacia() {
@@ -43,30 +68,31 @@ function dibujarCelulas() {
 	// noStroke();
 	strokeWeight(1);
 	conteoCelulas = 0;
-	celulasActuales.forEach( (celula, pos) => {
+	celulasActuales.forEach((celula, pos) => {
 		if(celula != 1)
 			return;
-		let posy = int(pos / cant_x);
-		let posx = pos % cant_x; 
-		console.log(`poslineal: ${pos}, celula: ${celula}, posx: ${posx}, posy: ${posy}, modulo esperado: ${34 % 20}`);
+		let posy = int((pos-1) / cant_x);
+		let posx = (pos-1) % cant_x; 
+		// console.log(`poslineal: ${pos}, celula: ${celula}, posx: ${posx}, posy: ${posy}, modulo esperado: ${34 % 20}`);
 		conteoCelulas++;
-		rect(posx * cant_x, posy * cant_y, tamanioCasilla, tamanioCasilla);
+		// console.log(`pos rect: ${posx * tamanioCasilla}, ${posy * tamanioCasilla}, ${tamanioCasilla}, ${tamanioCasilla}`);
+		rect(posx * tamanioCasilla, posy * tamanioCasilla, tamanioCasilla, tamanioCasilla);
 	});
 }
 
-function inicializarCelulasVacias() {
+function inicializarCelulasVacias(arregloCelulas) {
 	for (let posLineal = 0; posLineal <= cant_x * cant_y; posLineal++) {
-		celulasActuales[posLineal] = 0;
+		arregloCelulas[posLineal] = 0;
 	}
 }
 
 function crearSemillaInicialAleatoria () {
 	let tamanioLineal = cant_x * cant_y;
-	let maxCelulasAleatorias = 20;
 
 	let cantCelulasIniciales = int(random(maxCelulasAleatorias));
 	for (let celula = 0; celula < cantCelulasIniciales; celula++) {
 		let poslineal = int(random(tamanioLineal));
+		console.log(`pos lineal semilla: ${poslineal}`);
 		celulasActuales[poslineal] = 1;
 	}
 }
@@ -76,12 +102,13 @@ function dibujarDashboardInfo() {
 	let tamanioFila = 30;
 	let filaActual = 1;
 	noFill();
-	strokeWeight(4);
+	strokeWeight(2);
 	stroke(255);
 	line((anchuraTotal-anchuraDashboardInfo), 0, (anchuraTotal-anchuraDashboardInfo), alturaTotal);
 	textSize(16);
 	text(`Generación: ${frameCount}`, (anchuraTotal-anchuraDashboardInfo) + desfaceIzq, tamanioFila*filaActual++);
 	text(`Células: ${conteoCelulas}`, (anchuraTotal-anchuraDashboardInfo) + desfaceIzq, tamanioFila*filaActual++);
+	text(`Pausado: ${pausado ? 'si' : 'no'}`, (anchuraTotal-anchuraDashboardInfo) + desfaceIzq, tamanioFila*filaActual++);
 }
 
 function getPosLineal(posx, posy) {
