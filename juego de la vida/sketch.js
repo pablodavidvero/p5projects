@@ -1,10 +1,10 @@
-let framesPerSecond = 1;
-let anchuraTotal = 900;
+let framesPerSecond = 15;
+let anchuraTotal = 1200;
 let anchuraDashboardInfo = 200;
-let alturaTotal = 700;
-let tamanioCasilla = 25;
+let alturaTotal = 1000;
+let tamanioCasilla = 5;
 let conteoCelulas = 0;
-let maxCelulasAleatorias = 40;
+let maxCelulasAleatorias = 2000;
 let pausado = true;
 let generacion = 0;
 
@@ -17,7 +17,7 @@ function setup() {
 	frameRate(framesPerSecond);
 	createCanvas(anchuraTotal, alturaTotal);
 	inicializarCelulasVacias(celulasActuales);
-	//crearSemillaInicialAleatoria();
+	crearSemillaInicialAleatoria();
 }
 
 function keyPressed() {
@@ -27,18 +27,19 @@ function keyPressed() {
 }
 
 function mouseClicked() {
-	console.log(`mouse posxy -> ${mouseX}, ${mouseY}`);
+	// console.log(`mouse posxy -> ${mouseX}, ${mouseY}`);
 	if(mouseX < 0 || mouseY < 0)
 		return;
 	if(mouseX > (anchuraTotal - anchuraDashboardInfo))
 		return;
-	let posx = int(mouseX / tamanioCasilla)+1;
-	let posy = int(mouseY / tamanioCasilla);
+	let posx = int(mouseX / tamanioCasilla) + 1;
+	let posy = int(mouseY / tamanioCasilla) + 1;
+	// console.log(`mouse posxy -> ${posx}, ${posy}`)
 	let postemp = getPosLineal(posx, posy);
 	if(!(postemp > 0)) {
 		return;
 	}
-	console.log(`postemp -> ${postemp}`);
+	// console.log(`postemp -> ${postemp}`);
 	celulasActuales[postemp] = celulasActuales[postemp] == 0 ? 1 : 0;
   }
 
@@ -107,7 +108,7 @@ function obtenerCantCelulasVecinasVivas(pos) {
 	postemp = getPosLineal(posx - 1, posy + 1);
 	if(postemp > 0 && celulasActuales[postemp] > 0)
 		cant++;
-	console.log(`cant de celulas vecinas vivas de pos ${pos} -> posxy (${posx}, ${posy}) : ${cant}`);
+	// console.log(`cant de celulas vecinas vivas de pos ${pos} -> posxy (${posx}, ${posy}) : ${cant}`);
 	return cant;	
 }
 
@@ -151,10 +152,10 @@ function inicializarCelulasVacias(arregloCelulas) {
 function crearSemillaInicialAleatoria () {
 	let tamanioLineal = cant_x * cant_y;
 
-	let cantCelulasIniciales = int(random(maxCelulasAleatorias));
+	let cantCelulasIniciales = int(random(maxCelulasAleatorias - 100, maxCelulasAleatorias));
 	for (let celula = 0; celula < cantCelulasIniciales; celula++) {
 		let poslineal = int(random(tamanioLineal));
-		console.log(`pos lineal semilla: ${poslineal}`);
+		// console.log(`pos lineal semilla: ${poslineal}`);
 		celulasActuales[poslineal] = 1;
 	}
 }
@@ -182,5 +183,5 @@ function getPosLineal(posx, posy) {
 		return -1;
 	if(posx > (cant_x) || posy > (cant_y))
 		return -1;
-	return cant_x * (posy) + posx;
+	return cant_x * (posy - 1) + posx;
 }
