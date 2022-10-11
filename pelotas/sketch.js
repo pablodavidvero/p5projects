@@ -3,7 +3,8 @@ let anchuraTotal = 600;
 let pelotas = [];
 let variables = {
 	anchuraPelota: 50,
-	viscosidadFluido: 5
+	viscosidadFluido: 1,
+	fuerzaClick: 80
 }
 
 
@@ -23,3 +24,14 @@ function draw () {
 		pelota.show();
 	});
 }
+
+function mouseClicked() {
+	// console.log(`mouse posxy -> ${mouseX}, ${mouseY}`);
+	if(mouseX < 0 || mouseY < 0)
+		return;
+	if(mouseX > (anchuraTotal - 0))
+		return;
+	pelotas.forEach((pelota) => {
+		pelota.golpear(mouseX, mouseY);
+	});
+  }
