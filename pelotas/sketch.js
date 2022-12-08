@@ -3,8 +3,8 @@ let anchuraTotal = 600;
 let pelotas = [];
 let variables = {
 	anchuraPelota: 50,
-	viscosidadFluido: 1,
-	fuerzaClick: 80
+	viscosidadFluido: 0.009,
+	fuerzaClick: 120
 }
 
 
@@ -16,12 +16,24 @@ function setup() {
 function crearPelota() {
 	let pelota = new Pelota(variables, anchuraTotal, alturaTotal);
 	pelotas.push(pelota);
+	let pelota2 = new Pelota(variables, anchuraTotal, alturaTotal);
+	pelotas.push(pelota2);
 }
 
 function draw () {
 	background(0);
 	pelotas.forEach((pelota) => {
 		pelota.show();
+		if(pelota.moviendose) {
+			golpearOtrasPelotas(pelota);
+		}
+	});
+	mostrarVelocidadPelota();
+}
+
+function golpearOtrasPelotas(pelota_moviendose) {
+	pelotas.forEach((pelota) => {
+		pelota.golpearPorPelota(pelota_moviendose);
 	});
 }
 
@@ -32,6 +44,14 @@ function mouseClicked() {
 	if(mouseX > (anchuraTotal - 0))
 		return;
 	pelotas.forEach((pelota) => {
-		pelota.golpear(mouseX, mouseY);
+		pelota.golpearClick(mouseX, mouseY);
 	});
-  }
+}
+
+function mostrarVelocidadPelota(){
+	fill(255);
+	textFont('Helvetica',15);
+	pelotas.forEach((pelota) => {
+		text(`Velocidad (x, y): (${pelota.vectorVelocidad.x}, ${pelota.vectorVelocidad.y})`, anchuraTotal-500, alturaTotal-20);
+	});
+}
