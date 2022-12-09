@@ -78,8 +78,21 @@ class Pelota {
 		// B = this
 		// mA*vA1x+mB*vB1x=mA*vA2x+mB*vB2x
 		// mA*vA1y+mB*vB1y=mA*vA2y+mB*vB2y
-		pelota.masa*pelota.vectorVelocidad.x + this.masa*this.vectorVelocidad.x = pelota.masa*velFinalPelota*cos(angPelota) + this.masa*velFinalThis*cos(angThis)
-		pelota.masa*pelota.vectorVelocidad.y + this.masa*this.vectorVelocidad.y = pelota.masa*velFinalPelota*sin(angPelota) + this.masa*velFinalThis*sin(angThis)
+		// sin(angThis) = restaY's / longitudDesdeCentro
+		// angThis = sin-1(restaY's / longitudDesdeCentro)
+		//suma de angulos para el vector resultante
+		// 180 = angPelota + AngDesconocido + angThis
+		// velFinalPelota / sin⁡(angThis) = velFinalThis / sin⁡(angPelota) 
+		// pelota.masa*pelota.vectorVelocidad.x + this.masa*this.vectorVelocidad.x = pelota.masa*velFinalPelota*cos(angPelota) + this.masa*velFinalThis*cos(angThis)
+		// pelota.masa*pelota.vectorVelocidad.y + this.masa*this.vectorVelocidad.y = pelota.masa*velFinalPelota*sin(angPelota) + this.masa*velFinalThis*sin(angThis)
+		// let velFinalPelota = (pelota.masa*pelota.vectorVelocidad.x + this.masa*this.vectorVelocidad.x - this.masa*velFinalThis*cos(angThis)) / (pelota.masa*cos(angPelota));
+		// let velFinalThis = (pelota.masa*pelota.vectorVelocidad.y + this.masa*this.vectorVelocidad.y - pelota.masa*velFinalPelota*sin(angPelota)) / (this.masa*sin(angThis));
+		
+		let angThis = Math.asin((this.posy - pelota.posy) / longitudDesdeCentro);
+		velFinalPelota  = 
+		velFinalThis   = ;
+		sin⁡(angPelota) * (pelota.masa*pelota.vectorVelocidad.x + this.masa*this.vectorVelocidad.x - this.masa*velFinalThis*cos(angThis)) / (pelota.masa*cos(angPelota) * sin⁡(angThis)) = (pelota.masa*pelota.vectorVelocidad.y + this.masa*this.vectorVelocidad.y - pelota.masa*velFinalPelota*sin(angPelota)) / (this.masa*sin(angThis));
+		
 		//SI SIGUE ES PORQUE EL GOLPE ES DENTRO DE LA PELOTA
 		// let fuerzaProporcional = (1 * (longitudDesdeCentro / (this.tamanio / 2))) / this.tamanio;
 		// let vectorUnitario = {x: (this.posx - pelota.posx) / longitudDesdeCentro, y: (this.posy - pelota.posy) / longitudDesdeCentro}
